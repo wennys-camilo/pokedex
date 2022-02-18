@@ -1,7 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:logger/logger.dart';
 import 'package:mobx/mobx.dart';
-
 import '../../../../../shared/helpers/failure.dart';
 import '../../../data/models/details.dart';
 import '../../../data/models/pokedex.dart';
@@ -45,8 +43,6 @@ abstract class _HomeControllerBase with Store {
 
   @observable
   var selectedsPokemosID = ObservableList<int>();
-
-  var logger = Logger();
 
   @action
   onChangeBackGroundColor() => backgroundColorDark = !backgroundColorDark;
@@ -120,10 +116,8 @@ abstract class _HomeControllerBase with Store {
     final response = await repository.fetchByName(name.toLowerCase());
     response.fold((failuresResult) {
       failure = optionOf(failuresResult);
-      logger.w(failuresResult.message);
       loading = false;
     }, (response) {
-      logger.w(response);
       searchResult = response;
       loading = false;
     });
