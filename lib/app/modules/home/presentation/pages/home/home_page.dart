@@ -16,6 +16,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends ModularState<HomePage, HomeController> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController searchControllerText = TextEditingController();
+
   @override
   void initState() {
     controller.fetchPokemons();
@@ -31,10 +34,24 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     });
   }
 
+  void _scrollDown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: const Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+    );
+  }
+
+  @override
+  void dispose() {
+    searchControllerText.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
-    TextEditingController search = TextEditingController();
     return Observer(
       builder: (_) {
         return Scaffold(
@@ -42,9 +59,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
               ? const Color(0xff212121)
               : AppColors.white,
           appBar: PreferredSize(
-              preferredSize:
-                  const Size.fromHeight(10), // here the desired height
-              child: AppBar()),
+              preferredSize: const Size.fromHeight(10), child: AppBar()),
           body: SafeArea(
             child: controller.pokedexResponse == null
                 ? Center(
@@ -73,6 +88,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                         ),
                       )
                     : SingleChildScrollView(
+                        controller: _scrollController,
                         child: Column(
                           children: [
                             HeaderLogoWidget(
@@ -87,11 +103,12 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                                 children: [
                                   Expanded(
                                     child: SearchWidget(
-                                      controller: search,
+                                      controller: searchControllerText,
                                       onPressedSearch: () async {
-                                        if (search.text.isNotEmpty) {
+                                        if (searchControllerText
+                                            .text.isNotEmpty) {
                                           await controller.fetchPokemonByName(
-                                            name: search.text,
+                                            name: searchControllerText.text,
                                           );
                                           if (!controller.failure!.isSome()) {
                                             await controller.fetchDescription(
@@ -105,6 +122,9 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                                                 controller.backgroundColorDark,
                                               ],
                                             );
+                                            searchControllerText.clear();
+                                          } else {
+                                            searchControllerText.clear();
                                           }
                                         } else {
                                           ScaffoldMessenger.of(context)
@@ -180,6 +200,14 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                           ],
                         ),
                       ),
+          ),
+          floatingActionButton: Visibility(
+            visible: controller.pokedexResponse?.results != null,
+            child: FloatingActionButton.small(
+              backgroundColor: AppColors.primary,
+              onPressed: _scrollDown,
+              child: const Icon(Icons.arrow_downward),
+            ),
           ),
         );
       },
