@@ -20,9 +20,7 @@ class FavoritesPage extends StatelessWidget {
               ? const Color(0xff212121)
               : AppColors.white,
           appBar: PreferredSize(
-              preferredSize:
-                  const Size.fromHeight(10), // here the desired height
-              child: AppBar()),
+              preferredSize: const Size.fromHeight(10), child: AppBar()),
           body: SafeArea(
             child: controller.pokedexResponse == null
                 ? Center(

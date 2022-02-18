@@ -143,7 +143,7 @@ class DetailsPage extends StatelessWidget {
                                   children: [
                                     ImageIcon(
                                       const AssetImage(
-                                        AppImages.iconWeight,
+                                        AppImages.iconHeight,
                                       ),
                                       color: controller.backgroundColorDark
                                           ? AppColors.white
