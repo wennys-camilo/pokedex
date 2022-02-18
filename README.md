@@ -1,16 +1,10 @@
-# pokedex
+# DESAFIO POKEDEXAPI
 
-A new Flutter project.
+<div style="display: inline_block"><br>
+  <img align="center" alt="Wennys-Flutter" height="30" width="40" src="https://github.com/devicons/devicon/blob/master/icons/flutter/flutter-original.svg">
+  <img align="center" alt="Wennys-Flutter" height="30" width="40" src="https://github.com/devicons/devicon/blob/master/icons/dart/dart-original.svg">
 
-## Getting Started
+</div>
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Telas
+<img height="480px" src="screenshots/splash.png"> <img height="480px" src="screenshots/home_dark.png"> <img height="480px" src="screenshots/home_light.png"> <img height="480px" src="screenshots/home2.png"> <img height="480px" src="screenshots/pokemon_dark.png"> <img height="480px" src="screenshots/pokemon_light.png"> <img height="480px" src="screenshots/favorites_dark.png"> <img height="480px" src="screenshots/favorites_light.png">
