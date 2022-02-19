@@ -246,18 +246,15 @@ class DetailsPage extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.topCenter,
-              child: Hero(
-                tag: '',
-                child: Stack(
-                  children: [
-                    SvgPicture.network(
-                      'https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${details.id}.svg',
-                      fit: BoxFit.cover,
-                      height: 150.00,
-                      width: 150.0,
-                    ),
-                  ],
-                ),
+              child: Stack(
+                children: [
+                  SvgPicture.network(
+                    'https://unpkg.com/pokeapi-sprites@2.0.2/sprites/pokemon/other/dream-world/${details.id}.svg',
+                    fit: BoxFit.cover,
+                    height: 150.00,
+                    width: 150.0,
+                  ),
+                ],
               ),
             ),
           ],

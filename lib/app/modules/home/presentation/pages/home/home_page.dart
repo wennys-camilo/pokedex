@@ -203,7 +203,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                       ),
           ),
           floatingActionButton: Visibility(
-            visible: controller.pokedexResponse?.results != null,
+            visible: controller.pokedexResponse?.results != null &&
+                !controller.loading,
             child: FloatingActionButton.small(
               backgroundColor: AppColors.primary,
               onPressed: _scrollDown,
