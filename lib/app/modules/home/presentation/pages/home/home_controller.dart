@@ -67,7 +67,7 @@ abstract class _HomeControllerBase with Store {
   }
 
   @action
-  Future<void> fetchPokemonsNexaPage({String? url}) async {
+  Future<void> fetchPokemonsNextPage({String? url}) async {
     failure = none();
     final response = await repository.fetchAllPokemons(url: url);
     response.fold((failuresResult) {

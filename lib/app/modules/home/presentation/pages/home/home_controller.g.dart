@@ -170,13 +170,13 @@ mixin _$HomeController on _HomeControllerBase, Store {
     return _$fetchPokemonsAsyncAction.run(() => super.fetchPokemons(url: url));
   }
 
-  final _$fetchPokemonsNexaPageAsyncAction =
-      AsyncAction('_HomeControllerBase.fetchPokemonsNexaPage');
+  final _$fetchPokemonsNextPageAsyncAction =
+      AsyncAction('_HomeControllerBase.fetchPokemonsNextPage');
 
   @override
-  Future<void> fetchPokemonsNexaPage({String? url}) {
-    return _$fetchPokemonsNexaPageAsyncAction
-        .run(() => super.fetchPokemonsNexaPage(url: url));
+  Future<void> fetchPokemonsNextPage({String? url}) {
+    return _$fetchPokemonsNextPageAsyncAction
+        .run(() => super.fetchPokemonsNextPage(url: url));
   }
 
   final _$fetchDetailsAsyncAction =

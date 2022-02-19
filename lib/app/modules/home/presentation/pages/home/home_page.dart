@@ -192,7 +192,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                               },
                             ),
                             IconButton(
-                              onPressed: () => controller.fetchPokemonsNexaPage(
+                              onPressed: () => controller.fetchPokemonsNextPage(
                                   url: controller.pokedexResponse!.next),
                               icon: Icon(Icons.keyboard_arrow_down_sharp,
                                   size: 40, color: AppColors.primary),
