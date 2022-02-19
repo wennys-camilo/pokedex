@@ -6,18 +6,23 @@ import '../../utils/utils.dart';
 class PokemonListTile extends StatelessWidget {
   final String name;
   final int index;
-  final Color color;
+  final Color colorBackground;
+  final Color? colorType;
 
   const PokemonListTile(
-      {Key? key, required this.name, required this.index, required this.color})
+      {Key? key,
+      required this.name,
+      required this.index,
+      required this.colorBackground,
+      this.colorType})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: color,
+      color: colorBackground,
       shape: RoundedRectangleBorder(
-        side: BorderSide(color: AppColors.primary, width: 1.0),
+        side: BorderSide(color: colorType ?? AppColors.primary, width: 1.0),
         borderRadius: BorderRadius.circular(10.0),
       ),
       elevation: 0,
@@ -28,7 +33,7 @@ class PokemonListTile extends StatelessWidget {
               child: Text(
                 '#${index.toString()}',
                 style: TextStyle(
-                    color: color == AppColors.white
+                    color: colorBackground == AppColors.white
                         ? AppColors.black
                         : Colors.white,
                     fontSize: 10,
@@ -55,7 +60,7 @@ class PokemonListTile extends StatelessWidget {
                 flex: 2,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    color: colorType ?? AppColors.primary,
                     borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(10.0),
                       bottomRight: Radius.circular(10.0),
@@ -65,8 +70,10 @@ class PokemonListTile extends StatelessWidget {
                   width: MediaQuery.of(context).size.width,
                   child: Center(
                       child: Text(Utils.capitalize(name),
-                          style:
-                              TextStyle(color: AppColors.white, fontSize: 12))),
+                          style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold))),
                 ),
               )
             ],

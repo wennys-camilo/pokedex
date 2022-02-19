@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import '../../../data/models/details.dart';
 import '../home/home_controller.dart';
 import '../../../../../shared/utils/utils.dart';
-
 import '../../../../../shared/ui/themes/app_colors.dart';
 import '../../../../../shared/ui/themes/app_images.dart';
 import 'widgets/stats_widget.dart';
@@ -34,7 +32,7 @@ class DetailsPage extends StatelessWidget {
           )
         ],
       ),
-      backgroundColor: AppColors.blue,
+      backgroundColor: details.baseColor,
       body: SafeArea(
         child: Stack(
           clipBehavior: Clip.none,
@@ -92,14 +90,12 @@ class DetailsPage extends StatelessWidget {
                                       child: FilterChip(
                                         label: Text(
                                           Utils.capitalize(t.name),
-                                          style:
-                                              TextStyle(color: AppColors.white),
+                                          style: TextStyle(
+                                              color: AppColors.white,
+                                              fontWeight: FontWeight.bold),
                                         ),
-                                        backgroundColor: Color(
-                                                (math.Random().nextDouble() *
-                                                        0xFFFFFF)
-                                                    .toInt())
-                                            .withOpacity(1.0),
+                                        backgroundColor:
+                                            Details.color(type: t.name),
                                         onSelected: (b) {},
                                       ),
                                     ))
@@ -211,55 +207,37 @@ class DetailsPage extends StatelessWidget {
                           'Base Stats',
                           textAlign: TextAlign.justify,
                           style: TextStyle(
-                              color: AppColors.blue,
+                              color: details.baseColor,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
                       StatsWidget(
-                        typeStat: 'HP',
-                        valueStat: details.stats[0].baseStat,
-                        colorText: controller.backgroundColorDark
-                            ? AppColors.white
-                            : AppColors.black,
-                      ),
+                          typeStat: 'HP',
+                          valueStat: details.stats[0].baseStat,
+                          colorType: details.baseColor!),
                       StatsWidget(
-                        typeStat: 'ATK',
-                        valueStat: details.stats[1].baseStat,
-                        colorText: controller.backgroundColorDark
-                            ? AppColors.white
-                            : AppColors.black,
-                      ),
+                          typeStat: 'ATK',
+                          valueStat: details.stats[1].baseStat,
+                          colorType: details.baseColor),
                       StatsWidget(
-                        typeStat: 'DEF',
-                        valueStat: details.stats[2].baseStat,
-                        colorText: controller.backgroundColorDark
-                            ? AppColors.white
-                            : AppColors.black,
-                      ),
+                          typeStat: 'DEF',
+                          valueStat: details.stats[2].baseStat,
+                          colorType: details.baseColor),
                       StatsWidget(
-                        typeStat: 'SATK',
-                        valueStat: details.stats[3].baseStat,
-                        colorText: controller.backgroundColorDark
-                            ? AppColors.white
-                            : AppColors.black,
-                      ),
+                          typeStat: 'SATK',
+                          valueStat: details.stats[3].baseStat,
+                          colorType: details.baseColor),
                       StatsWidget(
-                        typeStat: 'SDEF',
-                        valueStat: details.stats[4].baseStat,
-                        colorText: controller.backgroundColorDark
-                            ? AppColors.white
-                            : AppColors.black,
-                      ),
+                          typeStat: 'SDEF',
+                          valueStat: details.stats[4].baseStat,
+                          colorType: details.baseColor),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: StatsWidget(
-                          typeStat: 'SPD',
-                          valueStat: details.stats[5].baseStat,
-                          colorText: controller.backgroundColorDark
-                              ? AppColors.white
-                              : AppColors.black,
-                        ),
+                            typeStat: 'SPD',
+                            valueStat: details.stats[5].baseStat,
+                            colorType: details.baseColor),
                       ),
                     ],
                   ),

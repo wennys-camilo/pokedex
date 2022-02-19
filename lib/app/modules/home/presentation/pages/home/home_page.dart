@@ -183,9 +183,10 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                                     }
                                   },
                                   child: PokemonListTile(
-                                      color: controller.backgroundColorDark
-                                          ? AppColors.backgroundColorDark
-                                          : AppColors.white,
+                                      colorBackground:
+                                          controller.backgroundColorDark
+                                              ? AppColors.backgroundColorDark
+                                              : AppColors.white,
                                       name: controller.pokemonList[index].name,
                                       index: index + 1),
                                 );

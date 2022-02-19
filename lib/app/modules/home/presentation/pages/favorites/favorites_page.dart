@@ -105,9 +105,12 @@ class FavoritesPage extends StatelessWidget {
                                     }
                                   },
                                   child: PokemonListTile(
-                                      color: controller.backgroundColorDark
-                                          ? AppColors.backgroundColorDark
-                                          : AppColors.white,
+                                      colorType: controller
+                                          .favoritesList[index].baseColor,
+                                      colorBackground:
+                                          controller.backgroundColorDark
+                                              ? AppColors.backgroundColorDark
+                                              : AppColors.white,
                                       name: favoriteItem.name,
                                       index: favoriteItem.id),
                                 );
