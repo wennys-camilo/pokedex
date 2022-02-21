@@ -173,14 +173,8 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                   onTap: () async {
-                                    await controller.fetchDetails(
-                                        url: controller.pokemonList[index].url);
-                                    if (!controller.failure!.isSome()) {
-                                      await controller.fetchDescription(
-                                          index: index + 1);
-                                      Modular.to.pushNamed('/details',
-                                          arguments: controller.details);
-                                    }
+                                    Modular.to.pushNamed('/details',
+                                        arguments: index + 1);
                                   },
                                   child: PokemonListTile(
                                       colorBackground:
