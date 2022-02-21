@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
-import '../../../../../../shared/ui/themes/app_colors.dart';
+import '../../../../../../shared/presentation/ui/themes/app_colors.dart';
 
 class SearchWidget extends StatelessWidget {
   final void Function(String?) onChanged;
   final TextEditingController controller;
-
+  final FocusNode? focusNode;
   const SearchWidget({
     Key? key,
     required this.onChanged,
     required this.controller,
+    this.focusNode,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return TextField(
+      focusNode: focusNode,
       textAlign: TextAlign.left,
       keyboardType: TextInputType.text,
       onChanged: onChanged,
@@ -34,13 +36,20 @@ class SearchWidget extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(left: 8),
                 child: controller.text.isEmpty
-                    ? const Icon(Icons.search)
+                    ? Icon(
+                        Icons.search,
+                        size: 20,
+                        color: AppColors.primary,
+                      )
                     : IconButton(
                         onPressed: () {
                           controller.clear();
                           onChanged.call(null);
                         },
-                        icon: const Icon(Icons.clear)),
+                        icon: Icon(
+                          Icons.clear,
+                          color: AppColors.primary,
+                        )),
               );
             }),
         hintText: "Buscar pokemon",

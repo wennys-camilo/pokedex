@@ -24,6 +24,22 @@ mixin _$PokemonController on _PokemonControllerBase, Store {
     });
   }
 
+  final _$backgroundColorDarkAtom =
+      Atom(name: '_PokemonControllerBase.backgroundColorDark');
+
+  @override
+  bool get backgroundColorDark {
+    _$backgroundColorDarkAtom.reportRead();
+    return super.backgroundColorDark;
+  }
+
+  @override
+  set backgroundColorDark(bool value) {
+    _$backgroundColorDarkAtom.reportWrite(value, super.backgroundColorDark, () {
+      super.backgroundColorDark = value;
+    });
+  }
+
   final _$fetchAllAsyncAction = AsyncAction('_PokemonControllerBase.fetchAll');
 
   @override
@@ -43,6 +59,17 @@ mixin _$PokemonController on _PokemonControllerBase, Store {
       ActionController(name: '_PokemonControllerBase');
 
   @override
+  dynamic onChangeBackGroundColor() {
+    final _$actionInfo = _$_PokemonControllerBaseActionController.startAction(
+        name: '_PokemonControllerBase.onChangeBackGroundColor');
+    try {
+      return super.onChangeBackGroundColor();
+    } finally {
+      _$_PokemonControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void onChangeSearch(String? name) {
     final _$actionInfo = _$_PokemonControllerBaseActionController.startAction(
         name: '_PokemonControllerBase.onChangeSearch');
@@ -56,7 +83,8 @@ mixin _$PokemonController on _PokemonControllerBase, Store {
   @override
   String toString() {
     return '''
-pokemonState: ${pokemonState}
+pokemonState: ${pokemonState},
+backgroundColorDark: ${backgroundColorDark}
     ''';
   }
 }

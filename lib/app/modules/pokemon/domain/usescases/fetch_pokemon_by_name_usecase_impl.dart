@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'fetch_pokemon_by_name_usecase.dart';
 import '../../../../shared/domain/helpers/errors/failure.dart';
 import '../entities/pokemon_details.dart';
 import '../repositories/pokemon_repository.dart';
+import 'fetch_pokemon_by_name_usecase.dart';
 
 class FetchPokemonByNameUsecaseImpl implements FetchPokemonByNameUsecase {
   final PokemonRepository _repository;

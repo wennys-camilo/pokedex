@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
-import 'package:pokedex/app/modules/pokemon/presentation/pages/pokemon/pokemon_state.dart';
-import 'package:pokedex/app/modules/pokemon/presentation/pages/pokemon/widgets/pokemon_list_tile.dart';
-import 'package:pokedex/app/modules/pokemon/presentation/pages/pokemon/widgets/search_widget.dart';
+import '../../../../../shared/presentation/ui/themes/app_colors.dart';
+import '../../widgets/header_logo_widget.dart';
+import '../../widgets/pokemon_list_tile.dart';
 import 'pokemon_controller.dart';
-import '../../../../../shared/ui/themes/app_colors.dart';
-import '../../../../../shared/ui/widgets/header_logo_widget.dart';
+import 'pokemon_state.dart';
+import 'widgets/search_widget.dart';
 
 class PokemonPage extends StatefulWidget {
   const PokemonPage({Key? key}) : super(key: key);
@@ -19,6 +19,7 @@ class PokemonPage extends StatefulWidget {
 class _PokemonPageState extends ModularState<PokemonPage, PokemonController> {
   late final ScrollController _scrollController;
   late final TextEditingController searchControllerText;
+  final FocusNode _focusSearch = FocusNode();
 
   @override
   void initState() {
@@ -49,6 +50,7 @@ class _PokemonPageState extends ModularState<PokemonPage, PokemonController> {
   void dispose() {
     searchControllerText.dispose();
     _scrollController.dispose();
+    _focusSearch.dispose();
     super.dispose();
   }
 
@@ -58,7 +60,9 @@ class _PokemonPageState extends ModularState<PokemonPage, PokemonController> {
     return Observer(
       builder: (_) {
         return Scaffold(
-          backgroundColor: const Color(0xff212121),
+          backgroundColor: controller.backgroundColorDark
+              ? const Color(0xff212121)
+              : AppColors.white,
           appBar: PreferredSize(
               preferredSize: const Size.fromHeight(10), child: AppBar()),
           body: SafeArea(
@@ -96,7 +100,9 @@ class _PokemonPageState extends ModularState<PokemonPage, PokemonController> {
                         child: Column(
                           children: [
                             HeaderLogoWidget(
-                                value: true, onChanged: (value) {}),
+                                value: controller.backgroundColorDark,
+                                onChanged: (_) =>
+                                    controller.onChangeBackGroundColor()),
                             Padding(
                               padding:
                                   const EdgeInsets.fromLTRB(20, 10, 20, 20),
@@ -104,6 +110,7 @@ class _PokemonPageState extends ModularState<PokemonPage, PokemonController> {
                                 children: [
                                   Expanded(
                                     child: SearchWidget(
+                                      focusNode: _focusSearch,
                                       controller: searchControllerText,
                                       onChanged: (value) =>
                                           controller.onChangeSearch(value),
@@ -122,28 +129,61 @@ class _PokemonPageState extends ModularState<PokemonPage, PokemonController> {
                                 ],
                               ),
                             ),
-                            GridView.builder(
-                              physics: const ScrollPhysics(),
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              shrinkWrap: true,
-                              itemCount: controller
-                                  .pokemonState.pokemonsFilters.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      mainAxisSpacing: 10,
-                                      crossAxisSpacing: 10,
-                                      crossAxisCount:
-                                          (orientation == Orientation.portrait)
-                                              ? 3
-                                              : 4),
-                              itemBuilder: (BuildContext context, int index) {
-                                return PokemonListTile(
-                                  pokemon: controller
-                                      .pokemonState.pokemonsFilters[index],
-                                );
-                              },
-                            ),
+                            controller.pokemonState.pokemonsFilters.isEmpty
+                                ? Padding(
+                                    padding: const EdgeInsets.only(top: 50),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Ops',
+                                          style: TextStyle(
+                                              color: AppColors.grey,
+                                              fontSize: 70,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          'Este pokemon não está aqui ;(',
+                                          style: TextStyle(
+                                              color: AppColors.grey,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                : GridView.builder(
+                                    physics: const ScrollPhysics(),
+                                    padding: const EdgeInsets.only(
+                                        left: 20, right: 20),
+                                    shrinkWrap: true,
+                                    itemCount: controller
+                                        .pokemonState.pokemonsFilters.length,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            mainAxisSpacing: 10,
+                                            crossAxisSpacing: 10,
+                                            crossAxisCount: (orientation ==
+                                                    Orientation.portrait)
+                                                ? 3
+                                                : 4),
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return PokemonListTile(
+                                        onTap: () {
+                                          Modular.to.pushNamed('./details',
+                                              arguments: controller.pokemonState
+                                                  .pokemonsFilters[index].url);
+                                          _focusSearch.unfocus();
+                                        },
+                                        pokemon: controller.pokemonState
+                                            .pokemonsFilters[index],
+                                      );
+                                    },
+                                  ),
                             Visibility(
                               visible: !controller.pokemonState.isMaxCount &&
                                   !controller.pokemonState.isFilter,

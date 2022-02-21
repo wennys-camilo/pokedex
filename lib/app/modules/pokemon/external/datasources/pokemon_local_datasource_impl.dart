@@ -1,5 +1,4 @@
 import 'package:localstorage/localstorage.dart';
-
 import '../../../../shared/domain/helpers/errors/failure.dart';
 import '../../infra/datasources/pokemon_local_datasource.dart';
 

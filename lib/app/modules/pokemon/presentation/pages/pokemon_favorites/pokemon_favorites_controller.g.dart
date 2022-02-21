@@ -26,6 +26,22 @@ mixin _$PokemonFavoritesController on _PokemonFavoritesControllerBase, Store {
     });
   }
 
+  final _$favoritesUrlAtom =
+      Atom(name: '_PokemonFavoritesControllerBase.favoritesUrl');
+
+  @override
+  List<String> get favoritesUrl {
+    _$favoritesUrlAtom.reportRead();
+    return super.favoritesUrl;
+  }
+
+  @override
+  set favoritesUrl(List<String> value) {
+    _$favoritesUrlAtom.reportWrite(value, super.favoritesUrl, () {
+      super.favoritesUrl = value;
+    });
+  }
+
   final _$fetchAsyncAction =
       AsyncAction('_PokemonFavoritesControllerBase.fetch');
 
@@ -37,7 +53,8 @@ mixin _$PokemonFavoritesController on _PokemonFavoritesControllerBase, Store {
   @override
   String toString() {
     return '''
-pokemonFavoriteState: ${pokemonFavoriteState}
+pokemonFavoriteState: ${pokemonFavoriteState},
+favoritesUrl: ${favoritesUrl}
     ''';
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import '../../../../../../shared/ui/themes/app_colors.dart';
+import '../../../../../../shared/presentation/ui/themes/app_colors.dart';
+import '../../pokemon/pokemon_controller.dart';
 
 class StatsWidget extends StatelessWidget {
   const StatsWidget(
@@ -44,7 +46,9 @@ class StatsWidget extends StatelessWidget {
               padding: const EdgeInsets.only(left: 10, bottom: 5),
               child: Text(valueStat.toString(),
                   style: TextStyle(
-                    color: AppColors.black,
+                    color: Modular.get<PokemonController>().backgroundColorDark
+                        ? AppColors.white
+                        : AppColors.black,
                   )),
             ),
           ),

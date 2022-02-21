@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pokedex/app/shared/presentation/ui/themes/app_images.dart';
+import '../../../../../shared/presentation/pages/failure_page.dart';
+import '../../../../../shared/presentation/pages/loading_page.dart';
+import '../../../../../shared/presentation/ui/themes/app_colors.dart';
+import '../../../../../shared/utils/utils.dart';
+import '../../utils/extension/element_types_extension.dart';
+import '../pokemon/pokemon_controller.dart';
 import 'pokemon_details_controller.dart';
 import 'widgets/stats_widget.dart';
-import '../../../../../shared/utils/utils.dart';
-import '../../../../../shared/ui/themes/app_colors.dart';
-import '../../../../../shared/ui/themes/app_images.dart';
-import '../../utils/extension/element_types_extension.dart';
 
 class PokemonDetailsPage extends StatefulWidget {
   final String url;
@@ -22,6 +25,9 @@ class PokemonDetailsPage extends StatefulWidget {
 
 class _PokemonDetailsPageState
     extends ModularState<PokemonDetailsPage, PokemonDetailsController> {
+  bool get backgrouncColorDark =>
+      Modular.get<PokemonController>().backgroundColorDark;
+
   @override
   void initState() {
     super.initState();
@@ -32,44 +38,12 @@ class _PokemonDetailsPageState
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
-      //TODO: CRIAR UMA TELA DE FALHA PADRÃO
       if (controller.pokemonDetailsState.failure != null) {
-        return Scaffold(
-          backgroundColor: AppColors.black,
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: Colors.transparent,
-          ),
-          body: Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Positioned(
-                  top: -(270 / 4.7),
-                  left: MediaQuery.of(context).size.width - (350 / 1.6),
-                  child: SvgPicture.asset(AppImages.pokeball)),
-              Center(
-                child: TextButton(
-                  onPressed: () => controller.getDetails(widget.url),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Falha ao carregar descrição!\nTente novamente.',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: AppColors.white),
-                      ),
-                      Icon(Icons.refresh)
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
+        return FailurePage(
+            failureAction: () => controller.getDetails(widget.url));
       }
-
       if (controller.pokemonDetailsState.loading) {
-        return Center(child: const CircularProgressIndicator());
+        return const LoadingPage();
       }
 
       return Scaffold(
@@ -102,7 +76,9 @@ class _PokemonDetailsPageState
                 left: 10.0,
                 top: MediaQuery.of(context).size.height * 0.1,
                 child: Card(
-                  color: AppColors.cardColor,
+                  color: backgrouncColorDark
+                      ? AppColors.cardColor
+                      : AppColors.white,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15)),
                   child: SingleChildScrollView(
@@ -156,14 +132,18 @@ class _PokemonDetailsPageState
                                     children: [
                                       ImageIcon(
                                         const AssetImage(AppImages.iconWeight),
-                                        color: AppColors.black,
+                                        color: backgrouncColorDark
+                                            ? AppColors.white
+                                            : AppColors.black,
                                       ),
                                       Text(
                                         controller.pokemonDetailsState
                                             .pokemonDetails.weight
                                             .toString(),
                                         style: TextStyle(
-                                          color: AppColors.black,
+                                          color: backgrouncColorDark
+                                              ? AppColors.white
+                                              : AppColors.black,
                                         ),
                                       )
                                     ],
@@ -184,14 +164,18 @@ class _PokemonDetailsPageState
                                         const AssetImage(
                                           AppImages.iconHeight,
                                         ),
-                                        color: AppColors.black,
+                                        color: backgrouncColorDark
+                                            ? AppColors.white
+                                            : AppColors.black,
                                       ),
                                       Text(
                                         controller.pokemonDetailsState
                                             .pokemonDetails.height
                                             .toString(),
-                                        style:
-                                            TextStyle(color: AppColors.black),
+                                        style: TextStyle(
+                                            color: backgrouncColorDark
+                                                ? AppColors.white
+                                                : AppColors.black),
                                       )
                                     ],
                                   ),
@@ -213,7 +197,9 @@ class _PokemonDetailsPageState
                                                 t.ability,
                                               ),
                                               style: TextStyle(
-                                                  color: AppColors.black)))
+                                                  color: backgrouncColorDark
+                                                      ? AppColors.white
+                                                      : AppColors.black)))
                                           .toList()),
                                   Text(
                                     'Moves',
@@ -234,7 +220,10 @@ class _PokemonDetailsPageState
                               controller.pokemonDetailsState.pokemonDetails
                                   .description,
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: AppColors.black),
+                              style: TextStyle(
+                                  color: backgrouncColorDark
+                                      ? AppColors.white
+                                      : AppColors.black),
                             ),
                           ),
                         ),

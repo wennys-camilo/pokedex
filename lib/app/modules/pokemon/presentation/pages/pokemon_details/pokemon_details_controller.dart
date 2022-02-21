@@ -1,7 +1,7 @@
 import 'package:mobx/mobx.dart';
-import 'package:pokedex/app/modules/pokemon/domain/usescases/fetch_pokemon_details_by_url_usecase.dart';
-import 'package:pokedex/app/modules/pokemon/infra/datasources/pokemon_local_datasource.dart';
 import 'package:pokedex/app/shared/domain/helpers/errors/failure.dart';
+import '../../../domain/usescases/fetch_pokemon_details_by_url_usecase.dart';
+import '../../../infra/datasources/pokemon_local_datasource.dart';
 import 'pokemon_details_state.dart';
 part 'pokemon_details_controller.g.dart';
 

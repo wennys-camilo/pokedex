@@ -13,6 +13,12 @@ abstract class _PokemonControllerBase with Store {
   @observable
   PokemonState pokemonState = const PokemonState();
 
+  @observable
+  bool backgroundColorDark = true;
+
+  @action
+  onChangeBackGroundColor() => backgroundColorDark = !backgroundColorDark;
+
   @action
   Future<void> fetchAll() async {
     pokemonState = pokemonState.copyWith(loading: true);

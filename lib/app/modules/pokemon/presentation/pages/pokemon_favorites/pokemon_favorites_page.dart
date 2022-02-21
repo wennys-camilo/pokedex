@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pokedex/app/modules/pokemon/presentation/pages/pokemon_favorites/pokemon_favorites_controller.dart';
-import '../../../../../shared/ui/themes/app_colors.dart';
-import '../../../../../shared/ui/themes/app_images.dart';
-import '../../../../../shared/ui/widgets/header_logo_widget.dart';
-import '../../../../../shared/ui/widgets/pokemon_list_tile.dart';
+import '../../../../../shared/presentation/pages/failure_page.dart';
+import '../../../../../shared/presentation/pages/loading_page.dart';
+import '../../../../../shared/presentation/ui/themes/app_colors.dart';
+import '../../../domain/entities/pokemon.dart';
 import '../../utils/extension/element_types_extension.dart';
+import '../../widgets/header_logo_widget.dart';
+import '../../widgets/pokemon_list_tile.dart';
+import '../pokemon/pokemon_controller.dart';
+import 'pokemon_favorites_controller.dart';
 
 class PokemonFavoritesPage extends StatefulWidget {
   const PokemonFavoritesPage({Key? key}) : super(key: key);
@@ -18,6 +20,8 @@ class PokemonFavoritesPage extends StatefulWidget {
 
 class _PokemonFavoritesPageState
     extends ModularState<PokemonFavoritesPage, PokemonFavoritesController> {
+  bool get backgroundColorDark =>
+      Modular.get<PokemonController>().backgroundColorDark;
   @override
   void initState() {
     super.initState();
@@ -31,53 +35,26 @@ class _PokemonFavoritesPageState
     return Observer(
       builder: (_) {
         if (controller.pokemonFavoriteState.failure != null) {
-          return Scaffold(
-            backgroundColor: AppColors.black,
-            appBar: AppBar(
-              elevation: 0,
-              backgroundColor: Colors.transparent,
-            ),
-            body: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Positioned(
-                    top: -(270 / 4.7),
-                    left: MediaQuery.of(context).size.width - (350 / 1.6),
-                    child: SvgPicture.asset(AppImages.pokeball)),
-                Center(
-                  child: TextButton(
-                    onPressed: () => controller.fetch(),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Falha ao carregar descrição!\nTente novamente.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: AppColors.white),
-                        ),
-                        Icon(Icons.refresh)
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
+          return FailurePage(failureAction: () => controller.fetch());
         }
 
         if (controller.pokemonFavoriteState.loading) {
-          return Center(child: const CircularProgressIndicator());
+          return const LoadingPage();
         }
 
         return Scaffold(
-          backgroundColor: const Color(0xff212121),
+          backgroundColor:
+              !backgroundColorDark ? AppColors.white : const Color(0xff212121),
           appBar: PreferredSize(
               preferredSize: const Size.fromHeight(10), child: AppBar()),
           body: SafeArea(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  HeaderLogoWidget(value: false, onChanged: (_) {}),
+                  HeaderLogoWidget(
+                      value: backgroundColorDark,
+                      onChanged: (_) => Modular.get<PokemonController>()
+                          .onChangeBackGroundColor()),
                   Padding(
                     padding: const EdgeInsets.all(40),
                     child: Row(
@@ -112,7 +89,8 @@ class _PokemonFavoritesPageState
                     itemBuilder: (BuildContext context, int index) {
                       var favoriteItem =
                           controller.pokemonFavoriteState.favorites[index];
-                      return GestureDetector(
+
+                      return PokemonListTile(
                         onTap: () async {
                           await Modular.to.pushNamed('/details',
                               arguments:
@@ -120,11 +98,11 @@ class _PokemonFavoritesPageState
 
                           await controller.fetch();
                         },
-                        child: PokemonListTile(
-                            colorType: favoriteItem.types.first.baseColor,
-                            colorBackground: AppColors.backgroundColorDark,
+                        colorType: favoriteItem.types.first.baseColor,
+                        pokemon: Pokemon(
                             name: favoriteItem.name,
-                            index: favoriteItem.id),
+                            url:
+                                'https://pokeapi.co/api/v2/pokemon/${favoriteItem.id}/'),
                       );
                     },
                   ),
