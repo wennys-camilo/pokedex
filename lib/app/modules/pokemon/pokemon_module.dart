@@ -7,7 +7,6 @@ import 'presentation/pages/pokemon_details/pokemon_details_controller.dart';
 import 'presentation/pages/pokemon_details/pokemon_details_page.dart';
 import 'domain/usescases/fetch_all_pokemons_usecase_impl.dart';
 import 'domain/usescases/fetch_pokemon_by_id_usecase_impl.dart';
-import 'domain/usescases/fetch_pokemon_by_name_usecase_impl.dart';
 import 'domain/usescases/fetch_pokemon_details_by_url_usecase_impl.dart';
 import 'external/datasources/pokemon_remote_datasource_impl.dart';
 import 'infra/repositories/pokemon_repository_impl.dart';
@@ -21,7 +20,6 @@ class PokemonModule extends Module {
     Bind((i) => PokemonLocalDatasourceImpl(i.get())),
     Bind((i) => PokemonRepositoryImpl(i.get(), i.get())),
     Bind((i) => FetchAllPokemonsUsecaseImpl(i.get())),
-    Bind((i) => FetchPokemonByNameUsecaseImpl(i.get())),
     Bind((i) => FetchPokemonDetailsByUrlUsecaseImpl(i.get())),
     Bind((i) => FetchAllPokemonsUsecaseImpl(i.get())),
     Bind((i) => FetchPokemonByIdUsecaseImpl(i.get())),

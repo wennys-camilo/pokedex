@@ -5,5 +5,4 @@ abstract class PokemonRemoteDatasource {
   Future<Pokedex> fetchAll({String? url});
   Future<PokemonDetails> fetchDetails(String url);
   Future<PokemonDetails> fetchByID(int index);
-  Future<PokemonDetails> fetchByName(String name);
 }

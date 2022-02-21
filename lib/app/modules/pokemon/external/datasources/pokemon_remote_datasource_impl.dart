@@ -66,21 +66,4 @@ class PokemonRemoteDatasourceImpl implements PokemonRemoteDatasource {
           message: error.toString(), stackTrace: stackTrace);
     }
   }
-
-  @override
-  Future<PokemonDetails> fetchByName(String name) async {
-    try {
-      final Response response =
-          await _httpClient.get('${PokemonEndPoint.baseUrl}$name');
-
-      return PokemonDetailsMapper().to(response.data);
-    } on Failure {
-      rethrow;
-    } on DioError catch (error, stackTrace) {
-      throw ApiFailure(stackTrace: stackTrace);
-    } catch (error, stackTrace) {
-      throw DatasourceFailure(
-          message: error.toString(), stackTrace: stackTrace);
-    }
-  }
 }

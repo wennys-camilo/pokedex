@@ -82,14 +82,4 @@ class PokemonRepositoryImpl implements PokemonRepository {
       return Left(error);
     }
   }
-
-  @override
-  Future<Either<Failure, PokemonDetails>> fetchByName(String name) async {
-    try {
-      final response = await _remoteDatasource.fetchByName(name);
-      return Right(response);
-    } on Failure catch (error) {
-      return Left(error);
-    }
-  }
 }
