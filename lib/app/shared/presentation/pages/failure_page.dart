@@ -28,8 +28,12 @@ class FailurePage extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  const Text(
+                    'Ops',
+                    style: TextStyle(fontSize: 70),
+                  ),
                   Text(
-                    'Falha ao carregar descrição!\nTente novamente.',
+                    'Tente novamente!',
                     textAlign: TextAlign.center,
                     style: TextStyle(color: AppColors.white),
                   ),

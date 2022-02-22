@@ -118,9 +118,8 @@ class _PokemonPageState extends ModularState<PokemonPage, PokemonController> {
                                   ),
                                   const SizedBox(width: 10),
                                   IconButton(
-                                    onPressed: () async {
-                                      Modular.to.pushNamed('./favorites');
-                                    },
+                                    onPressed: () async =>
+                                        Modular.to.pushNamed('./favorites'),
                                     icon: Icon(
                                       Icons.favorite,
                                       color: AppColors.primary,
@@ -200,7 +199,8 @@ class _PokemonPageState extends ModularState<PokemonPage, PokemonController> {
           floatingActionButton: Visibility(
             visible: controller.pokemonState.pokemonsFilters.isNotEmpty &&
                 !controller.pokemonState.loading &&
-                !controller.pokemonState.isMaxCount,
+                !controller.pokemonState.isMaxCount &&
+                controller.pokemonState.failure == null,
             child: FloatingActionButton.small(
               backgroundColor: AppColors.primary,
               onPressed: _scrollDown,
